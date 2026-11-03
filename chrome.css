@@ -210,7 +210,18 @@
           transition: none !important;
         }
 
-        @container (max-width: 120px) {
+        /* Collapsed sidebar: shrink the media frame and its contents. */
+
+        #navigator-toolbox:not(:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        )) {
           #zen-media-controls-toolbar
             .zen-media-card > .zen-media-main-vbox {
             height: 42px !important;

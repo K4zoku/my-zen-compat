@@ -199,6 +199,12 @@
           transition: none !important;
         }
 
+        #navigator-toolbox
+          #zen-media-controls-toolbar {
+              padding: 0 !important;
+              height: unset !important;
+          }
+
         /* Collapsed sidebar: hide expanded media contents. */
 
         #navigator-toolbox:not(:is(

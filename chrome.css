@@ -14,14 +14,9 @@
         /*
          * Tabs and New Tab
          *
-         * Keep Macaron's original tab geometry and shadow.
-         * Add only the missing border edge at the clipping boundary.
+         * Animate the actual background width instead of painting
+         * an extra border at the clipping edge.
          */
-
-        #navigator-toolbox {
-          --my-compat-visible-tab-width:
-            calc(var(--collapsed-tab-bar-width) - 10px);
-        }
 
         #navigator-toolbox
           tab:not(
@@ -31,66 +26,17 @@
             [split-view="true"]
           ) .tab-background,
         #navigator-toolbox #tabs-newtab-button {
-          position: relative !important;
-        }
-
-        #navigator-toolbox
-          tab:not(
-            [zen-essential],
-            [pinned],
-            [zen-glance-tab="true"],
-            [split-view="true"]
-          ) .tab-background::after,
-        #navigator-toolbox #tabs-newtab-button::after {
-          content: "" !important;
-          pointer-events: none !important;
-          position: absolute !important;
           box-sizing: border-box !important;
-
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: auto;
-
-          width: var(--my-compat-visible-tab-width) !important;
-
-          border: 2px solid var(--macaron-outline) !important;
-          border-radius: inherit !important;
-
-          box-shadow: none !important;
-          background: transparent !important;
-
-          /* Paint only the missing right edge and rounded corners. */
-          clip-path: inset(0 0 0 calc(100% - 12px));
-
-          opacity: 1;
+          min-width: 0 !important;
+          width: calc(var(--collapsed-tab-bar-width) - 10px) !important;
+          clip-path: none !important;
 
           transition:
-            opacity var(--transition-duration, 200ms)
-            ease-in-out var(--transition-delay-smooth, 0ms) !important;
+            width var(--transition-duration, 200ms)
+              ease-in-out var(--transition-delay-smooth, 0ms),
+            transform 0.1s ease,
+            box-shadow 0.1s ease !important;
         }
-
-        /* Right sidebar: the clipped edge is on the left. */
-
-        #navigator-toolbox[zen-right-side="true"]
-          tab:not(
-            [zen-essential],
-            [pinned],
-            [zen-glance-tab="true"],
-            [split-view="true"]
-          ) .tab-background::after,
-        #navigator-toolbox[zen-right-side="true"]
-          #tabs-newtab-button::after {
-          left: auto;
-          right: 0;
-
-          clip-path: inset(0 calc(100% - 12px) 0 0);
-        }
-
-        /*
-         * Fade the added border out while the sidebar expands.
-         * The original Macaron border remains untouched.
-         */
 
         #navigator-toolbox:is(
           :hover,
@@ -107,18 +53,33 @@
             [pinned],
             [zen-glance-tab="true"],
             [split-view="true"]
-          ) .tab-background::after,
-          #tabs-newtab-button::after {
-            opacity: 0 !important;
+          ) .tab-background,
+          #tabs-newtab-button {
+            width: calc(
+              100% -
+              var(--tab-margin-block, 0px) -
+              var(--tab-margin-block, 0px)
+            ) !important;
           }
+        }
+
+        #navigator-toolbox[zen-right-side="true"]
+          tab:not(
+            [zen-essential],
+            [pinned],
+            [zen-glance-tab="true"],
+            [split-view="true"]
+          ) .tab-background,
+        #navigator-toolbox[zen-right-side="true"]
+          #tabs-newtab-button {
+          margin-inline-start: auto !important;
         }
 
         /*
          * Media controls
          *
-         * Preserve Zen's media-card animations and collapsed height.
-         * Keep Macaron's border and shadow without inheriting Ayu's
-         * accent as the card background.
+         * Preserve Zen's native stack animations and move Macaron's
+         * frame onto the content so it follows the collapsed height.
          */
 
         #navigator-toolbox #zen-media-controls-toolbar {
@@ -136,8 +97,7 @@
               ease-in-out var(--transition-delay-smooth) !important;
         }
 
-        /* Keep the expander's width behavior. Add clearance only
-           while expanded, so the card and shadow fit inside the sidebar. */
+        /* Reserve room for Macaron's shadow beside the webview. */
 
         #navigator-toolbox:is(
           :hover,
@@ -149,10 +109,8 @@
             toolbarbutton[open="true"]:not(#zen-sidepanel-button)
           )
         ) #zen-media-controls-toolbar {
-          padding-inline-end: 10px !important;
+          padding-inline-end: 14px !important;
         }
-
-        /* Mirror the clearance for a right-side sidebar. */
 
         #navigator-toolbox[zen-right-side="true"]
           #zen-media-controls-toolbar {
@@ -169,19 +127,21 @@
             toolbarbutton[open="true"]:not(#zen-sidepanel-button)
           )
         ) #zen-media-controls-toolbar {
-          padding-inline-start: 10px !important;
+          padding-inline-start: 14px !important;
           padding-inline-end: 0 !important;
         }
 
-        /* Restore Zen's native media-card background and stacking
-           transforms, preserving Macaron's border and box-shadow. */
+        /* The outer card controls stacking, not visual framing. */
 
         #navigator-toolbox
           #zen-media-controls-toolbar .zen-media-card {
           box-sizing: border-box !important;
           min-width: 0 !important;
-
-          background: var(--zen-sidebar-notification-bg) !important;
+          padding: 0 !important;
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
+          background: transparent !important;
 
           transform:
             translateY(
@@ -199,12 +159,41 @@
           transition:
             transform 0.35s var(--zen-media-stack-easing),
             opacity 0.3s var(--zen-media-stack-easing),
-            filter 0.3s var(--zen-media-stack-easing),
-            padding 0.3s ease-out,
-            box-shadow 0.12s ease !important;
+            filter 0.3s var(--zen-media-stack-easing) !important;
         }
 
-        /* Native expanded and removing states. */
+        /* Frame the content that actually expands and collapses. */
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar
+          .zen-media-card > .zen-media-main-vbox {
+          box-sizing: border-box !important;
+          height: auto !important;
+          min-height: 0 !important;
+          padding: 4px 6px !important;
+
+          border: 2px solid var(--macaron-outline) !important;
+          border-radius: 14px !important;
+          background: var(--zen-sidebar-notification-bg) !important;
+
+          box-shadow:
+            var(--mac-shadow-medium)
+            var(--mac-shadow-medium)
+            0
+            var(--macaron-outline) !important;
+
+          transition: box-shadow 0.12s ease !important;
+        }
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar
+          .zen-media-card:not(.playing) > .zen-media-main-vbox {
+          box-shadow:
+            var(--mac-shadow-selected)
+            var(--mac-shadow-selected)
+            0
+            var(--macaron-outline) !important;
+        }
 
         #navigator-toolbox
           #zen-media-controls-toolbar:hover
@@ -220,9 +209,6 @@
           .zen-media-card[zen-reindexing] {
           transition: none !important;
         }
-
-        /* Collapse the media details when the sidebar becomes narrow,
-           even if the media toolbar retains its hover state. */
 
         @container (max-width: 120px) {
           #zen-media-controls-toolbar .show-on-hover {

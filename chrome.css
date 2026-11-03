@@ -168,8 +168,10 @@
           #zen-media-controls-toolbar
           .zen-media-card > .zen-media-main-vbox {
           box-sizing: border-box !important;
+          width: 100% !important;
           height: max-content !important;
           min-height: 0 !important;
+          max-height: none !important;
           padding: 4px 6px !important;
 
           border: 2px solid var(--macaron-outline) !important;
@@ -182,7 +184,9 @@
             0
             var(--macaron-outline) !important;
 
-          transition: box-shadow 0.12s ease !important;
+          transition:
+            width var(--transition-duration, 200ms) ease-in-out,
+            box-shadow 0.12s ease !important;
         }
 
         #navigator-toolbox
@@ -210,7 +214,7 @@
           transition: none !important;
         }
 
-        /* Collapsed sidebar: shrink the media frame and its contents. */
+        /* Collapsed sidebar: hide expanded media contents. */
 
         #navigator-toolbox:not(:is(
           :hover,
@@ -222,14 +226,6 @@
             toolbarbutton[open="true"]:not(#zen-sidepanel-button)
           )
         )) {
-          #zen-media-controls-toolbar
-            .zen-media-card > .zen-media-main-vbox {
-            height: 42px !important;
-            min-height: 0 !important;
-            max-height: 42px !important;
-            overflow: clip !important;
-          }
-
           #zen-media-controls-toolbar .show-on-hover {
             max-height: 0 !important;
             padding-block: 0 !important;
@@ -240,19 +236,20 @@
           }
         }
 
-        /* Expanded media: restore the full Macaron frame */
-        #navigator-toolbox
-          #zen-media-controls-toolbar:hover
+        /* Expanded sidebar: align the media frame. */
+
+        #navigator-toolbox:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) #zen-media-controls-toolbar
           .zen-media-card > .zen-media-main-vbox {
           width: calc(100% - 14px) !important;
-
-          height: max-content !important;
-          max-height: none !important;
-          min-height: 0 !important;
-          overflow: visible !important;
-
-          align-self: flex-start !important;
-          justify-content: flex-start !important;
         }
 
         /* Expanded sidebar on the right. */

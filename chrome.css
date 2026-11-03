@@ -168,7 +168,7 @@
           #zen-media-controls-toolbar
           .zen-media-card > .zen-media-main-vbox {
           box-sizing: border-box !important;
-          height: auto !important;
+          height: max-content !important;
           min-height: 0 !important;
           padding: 4px 6px !important;
 
@@ -238,6 +238,21 @@
             overflow: hidden !important;
             pointer-events: none !important;
           }
+        }
+
+        /* Expanded media: restore the full Macaron frame */
+        #navigator-toolbox
+          #zen-media-controls-toolbar:hover
+          .zen-media-card > .zen-media-main-vbox {
+          width: calc(100% - 14px) !important;
+
+          height: max-content !important;
+          max-height: none !important;
+          min-height: 0 !important;
+          overflow: visible !important;
+
+          align-self: flex-start !important;
+          justify-content: flex-start !important;
         }
 
         /* Expanded sidebar on the right. */

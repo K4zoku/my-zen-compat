@@ -12,73 +12,125 @@
       ):not(:has(zen-library[open])) {
 
         /*
-         * Collapsed sidebar
+         * Tabs and New Tab
          *
-         * Macaron paints the outline directly on .tab-background.
-         * Clipping a full-width background removes its far border.
-         * Resize the painted surface instead.
+         * Keep Macaron's original tab geometry and shadow.
+         * Add only the missing border edge at the clipping boundary.
          */
 
-        #navigator-toolbox:not(
-          :hover,
-          [has-popup-menu="true"],
-          [movingtab],
-          [flash-popup]
-        ):not(:has(
-          #urlbar[open],
-          toolbarbutton[open="true"]:not(#zen-sidepanel-button)
-        )) {
-          --my-compat-tab-width:
-            calc(var(--collapsed-tab-bar-width) - 8px);
+        #navigator-toolbox {
+          --my-compat-visible-tab-width:
+            calc(var(--collapsed-tab-bar-width) - 10px);
+        }
 
+        #navigator-toolbox
           tab:not(
             [zen-essential],
+            [pinned],
             [zen-glance-tab="true"],
             [split-view="true"]
           ) .tab-background,
-          #tabs-newtab-button,
-          zen-folder .tab-group-label-container {
-            box-sizing: border-box !important;
-            width: var(--my-compat-tab-width) !important;
-            min-width: 0 !important;
-            max-width: var(--my-compat-tab-width) !important;
-            clip-path: none !important;
-          }
+        #navigator-toolbox #tabs-newtab-button {
+          position: relative !important;
+        }
 
-          /* Align outlined tabs to the right-side icon strip. */
+        #navigator-toolbox
+          tab:not(
+            [zen-essential],
+            [pinned],
+            [zen-glance-tab="true"],
+            [split-view="true"]
+          ) .tab-background::after,
+        #navigator-toolbox #tabs-newtab-button::after {
+          content: "" !important;
+          pointer-events: none !important;
+          position: absolute !important;
+          box-sizing: border-box !important;
 
-          &[zen-right-side="true"] {
-            tab:not(
-              [zen-essential],
-              [zen-glance-tab="true"],
-              [split-view="true"]
-            ) .tab-background,
-            #tabs-newtab-button {
-              margin-left: auto !important;
-            }
-          }
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: auto;
 
-          /*
-           * Media controls
-           *
-           * Reserve enough space for Macaron's offset shadow.
-           */
+          width: var(--my-compat-visible-tab-width) !important;
 
-          #zen-media-controls-toolbar {
-            box-sizing: border-box !important;
-            width: var(--my-compat-tab-width) !important;
-            min-width: 0 !important;
-            overflow: visible !important;
-          }
+          border: 2px solid var(--macaron-outline) !important;
+          border-radius: inherit !important;
 
-          #zen-media-controls-toolbar .zen-media-card {
-            box-sizing: border-box !important;
-            min-width: 0 !important;
-            max-width: 100% !important;
+          box-shadow: none !important;
+          background: transparent !important;
+
+          /* Paint only the missing right edge and rounded corners. */
+          clip-path: inset(0 0 0 calc(100% - 12px));
+
+          opacity: 1;
+
+          transition:
+            opacity var(--transition-duration, 200ms)
+            ease-in-out var(--transition-delay-smooth, 0ms) !important;
+        }
+
+        /* Right sidebar: the clipped edge is on the left. */
+
+        #navigator-toolbox[zen-right-side="true"]
+          tab:not(
+            [zen-essential],
+            [pinned],
+            [zen-glance-tab="true"],
+            [split-view="true"]
+          ) .tab-background::after,
+        #navigator-toolbox[zen-right-side="true"]
+          #tabs-newtab-button::after {
+          left: auto;
+          right: 0;
+
+          clip-path: inset(0 calc(100% - 12px) 0 0);
+        }
+
+        /*
+         * Fade the added border out while the sidebar expands.
+         * The original Macaron border remains untouched.
+         */
+
+        #navigator-toolbox:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) {
+          tab:not(
+            [zen-essential],
+            [pinned],
+            [zen-glance-tab="true"],
+            [split-view="true"]
+          ) .tab-background::after,
+          #tabs-newtab-button::after {
+            opacity: 0 !important;
           }
         }
 
-        /* Macaron's important margins override the expander's right alignment. */
+        /*
+         * Media controls
+         *
+         * Keep the expander's original width behavior.
+         * Preserve Macaron's border and shadow.
+         */
+
+        #navigator-toolbox #zen-media-controls-toolbar {
+          overflow: visible !important;
+        }
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar .zen-media-card {
+          box-sizing: border-box !important;
+          min-width: 0 !important;
+        }
+
+        /* Fix right-side media control alignment. */
 
         #navigator-toolbox[zen-right-side="true"]
           #zen-media-controls-toolbar {
@@ -89,8 +141,8 @@
         /*
          * Webview
          *
-         * The expander clips the tabbox with a 2px outsetting.
-         * Macaron's shadow extends further, so increase clearance.
+         * Increase clipping clearance to preserve Macaron's
+         * border and offset shadow.
          */
 
         #navigator-toolbox
@@ -193,8 +245,8 @@
 /*
  * Macaron top bar spacing
  *
- * Only applies to Zen's multiple-toolbar layout.
- * Small top clearance, larger bottom clearance for the URL bar shadow.
+ * Multiple toolbars only.
+ * Smaller top clearance, larger bottom clearance.
  */
 
 @media (-moz-bool-pref: "mod.my-zen-compat.topbar-spacing") {
@@ -203,8 +255,8 @@
       [sizemode="fullscreen"],
       [inDOMFullscreen="true"]
     ) #zen-appcontent-wrapper #nav-bar {
-      margin-block-start: 2px !important;
-      margin-block-end: 8px !important;
+      margin-block-start: 3px !important;
+      margin-block-end: 5px !important;
     }
   }
 }

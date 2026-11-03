@@ -97,21 +97,6 @@
               ease-in-out var(--transition-delay-smooth) !important;
         }
 
-        /* Reserve room for Macaron's shadow beside the webview. */
-
-        #navigator-toolbox:is(
-          :hover,
-          [has-popup-menu="true"],
-          [movingtab],
-          [flash-popup],
-          :has(
-            #urlbar[open],
-            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
-          )
-        ) #zen-media-controls-toolbar {
-          padding-inline-end: 14px !important;
-        }
-
         #navigator-toolbox[zen-right-side="true"]
           #zen-media-controls-toolbar {
           margin-left: auto !important;
@@ -234,22 +219,6 @@
             overflow: hidden !important;
             pointer-events: none !important;
           }
-        }
-
-        /* Expanded sidebar: align the media frame. */
-
-        #navigator-toolbox:is(
-          :hover,
-          [has-popup-menu="true"],
-          [movingtab],
-          [flash-popup],
-          :has(
-            #urlbar[open],
-            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
-          )
-        ) #zen-media-controls-toolbar
-          .zen-media-card > .zen-media-main-vbox {
-          width: calc(100% - 14px) !important;
         }
 
         /* Expanded sidebar on the right. */

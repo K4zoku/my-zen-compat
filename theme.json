@@ -1,0 +1,17 @@
+{
+  "id": "kazoku-zen-compat",
+  "name": "Kazoku's Zen Compat",
+  "description": "Compatibility fixes for Zen Browser mods",
+  "author": "Kazoku",
+  "version": "1.0.0",
+  "style": {
+    "chrome": "chrome.css"
+  },
+  "preferences": "preferences.json",
+  "fork": ["zen"],
+  "tags": [
+    "compatibility",
+    "macaron",
+    "sidebar"
+  ]
+}

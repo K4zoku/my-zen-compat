@@ -1,0 +1,14 @@
+[
+  {
+    "property": "mod.my-zen-compat.macaron-expand",
+    "label": "Macaron + Sidebar Expand on Hover compatibility",
+    "type": "checkbox",
+    "defaultValue": true
+  },
+  {
+    "property": "mod.my-zen-compat.topbar-spacing",
+    "label": "Macaron top bar spacing (multiple toolbars only)",
+    "type": "checkbox",
+    "defaultValue": true
+  }
+]

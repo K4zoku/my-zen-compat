@@ -1,0 +1,210 @@
+/* Macaron + Sidebar Expand on Hover compatibility */
+
+@media (-moz-bool-pref: "mod.my-zen-compat.macaron-expand") {
+  @media not (-moz-bool-pref: "zen.view.compact.enable-at-startup"),
+         not (-moz-bool-pref: "zen.view.use-single-toolbar") {
+    @media not (-moz-bool-pref: "zen.view.compact.enable-at-startup"),
+           not (-moz-bool-pref: "zen.view.compact.hide-tabbar") {
+
+      :root:not(
+        [sizemode="fullscreen"],
+        [inDOMFullscreen="true"]
+      ):not(:has(zen-library[open])) {
+
+        /*
+         * Collapsed sidebar
+         *
+         * Macaron paints the outline directly on .tab-background.
+         * Clipping a full-width background removes its far border.
+         * Resize the painted surface instead.
+         */
+
+        #navigator-toolbox:not(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup]
+        ):not(:has(
+          #urlbar[open],
+          toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+        )) {
+          --my-compat-tab-width:
+            calc(var(--collapsed-tab-bar-width) - 8px);
+
+          tab:not(
+            [zen-essential],
+            [zen-glance-tab="true"],
+            [split-view="true"]
+          ) .tab-background,
+          #tabs-newtab-button,
+          zen-folder .tab-group-label-container {
+            box-sizing: border-box !important;
+            width: var(--my-compat-tab-width) !important;
+            min-width: 0 !important;
+            max-width: var(--my-compat-tab-width) !important;
+            clip-path: none !important;
+          }
+
+          /* Align outlined tabs to the right-side icon strip. */
+
+          &[zen-right-side="true"] {
+            tab:not(
+              [zen-essential],
+              [zen-glance-tab="true"],
+              [split-view="true"]
+            ) .tab-background,
+            #tabs-newtab-button {
+              margin-left: auto !important;
+            }
+          }
+
+          /*
+           * Media controls
+           *
+           * Reserve enough space for Macaron's offset shadow.
+           */
+
+          #zen-media-controls-toolbar {
+            box-sizing: border-box !important;
+            width: var(--my-compat-tab-width) !important;
+            min-width: 0 !important;
+            overflow: visible !important;
+          }
+
+          #zen-media-controls-toolbar .zen-media-card {
+            box-sizing: border-box !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+          }
+        }
+
+        /* Macaron's important margins override the expander's right alignment. */
+
+        #navigator-toolbox[zen-right-side="true"]
+          #zen-media-controls-toolbar {
+          margin-left: auto !important;
+          margin-right: 3px !important;
+        }
+
+        /*
+         * Webview
+         *
+         * The expander clips the tabbox with a 2px outsetting.
+         * Macaron's shadow extends further, so increase clearance.
+         */
+
+        #navigator-toolbox
+          ~ #zen-appcontent-wrapper #tabbrowser-tabbox {
+          clip-path: inset(
+            -6px -6px -6px -6px round 10px
+          ) !important;
+        }
+
+        /* Expanded sidebar on the left. */
+
+        #navigator-toolbox:not([zen-right-side="true"]):is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox {
+          clip-path: inset(
+            -6px
+            -6px
+            -6px
+            calc(
+              var(--expanded-tab-bar-width)
+              - var(--collapsed-tab-bar-width)
+              - 5px
+            )
+            round 10px
+          ) !important;
+        }
+
+        /* Expanded sidebar on the right. */
+
+        #navigator-toolbox[zen-right-side="true"]:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox {
+          clip-path: inset(
+            -6px
+            calc(
+              var(--expanded-tab-bar-width)
+              - var(--collapsed-tab-bar-width)
+              - 5px
+            )
+            -6px
+            -6px
+            round 10px
+          ) !important;
+        }
+
+        /* Right-side split view has an additional clipping layer. */
+
+        #navigator-toolbox[zen-right-side="true"]
+          ~ #zen-appcontent-wrapper
+          #tabbrowser-tabbox[zen-split-view="true"]
+          #tabbrowser-tabpanels {
+          clip-path: inset(
+            -6px -6px -6px -6px round 10px
+          ) !important;
+        }
+
+        #navigator-toolbox[zen-right-side="true"]:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) ~ #zen-appcontent-wrapper
+          #tabbrowser-tabbox[zen-split-view="true"]
+          #tabbrowser-tabpanels {
+          clip-path: inset(
+            -6px
+            calc(
+              var(--expanded-tab-bar-width)
+              - var(--collapsed-tab-bar-width)
+              + 4px
+            )
+            -6px
+            -6px
+            round 10px
+          ) !important;
+        }
+      }
+    }
+  }
+}
+
+/*
+ * Macaron top bar spacing
+ *
+ * Only applies to Zen's multiple-toolbar layout.
+ * Small top clearance, larger bottom clearance for the URL bar shadow.
+ */
+
+@media (-moz-bool-pref: "mod.my-zen-compat.topbar-spacing") {
+  @media not (-moz-bool-pref: "zen.view.use-single-toolbar") {
+    :root:not(
+      [sizemode="fullscreen"],
+      [inDOMFullscreen="true"]
+    ) #zen-appcontent-wrapper #nav-bar {
+      margin-block-start: 2px !important;
+      margin-block-end: 8px !important;
+    }
+  }
+}

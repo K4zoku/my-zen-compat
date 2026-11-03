@@ -211,6 +211,14 @@
         }
 
         @container (max-width: 120px) {
+          #zen-media-controls-toolbar
+            .zen-media-card > .zen-media-main-vbox {
+            height: 42px !important;
+            min-height: 0 !important;
+            max-height: 42px !important;
+            overflow: clip !important;
+          }
+
           #zen-media-controls-toolbar .show-on-hover {
             max-height: 0 !important;
             padding-block: 0 !important;

@@ -116,45 +116,30 @@
         /*
          * Media controls
          *
-         * Keep the expander's original width behavior.
-         * Preserve Macaron's border and shadow.
+         * Preserve Zen's media-card animations and collapsed height.
+         * Keep Macaron's border and shadow without inheriting Ayu's
+         * accent as the card background.
          */
 
         #navigator-toolbox #zen-media-controls-toolbar {
-          overflow: visible !important;
-        }
-
-        #navigator-toolbox
-          #zen-media-controls-toolbar .zen-media-card {
           box-sizing: border-box !important;
-          min-width: 0 !important;
+          margin-inline: 0 !important;
+          padding-inline: 0 !important;
+          background: transparent !important;
+          overflow: visible !important;
+
+          transition:
+            height 0.3s var(--zen-media-stack-easing),
+            padding-inline-start var(--transition-duration)
+              ease-in-out var(--transition-delay-smooth),
+            padding-inline-end var(--transition-duration)
+              ease-in-out var(--transition-delay-smooth) !important;
         }
 
-        /* Fix right-side media control alignment. */
+        /* Keep the expander's width behavior. Add clearance only
+           while expanded, so the card and shadow fit inside the sidebar. */
 
-        #navigator-toolbox[zen-right-side="true"]
-          #zen-media-controls-toolbar {
-          margin-left: auto !important;
-          margin-right: 3px !important;
-        }
-
-        /*
-         * Webview
-         *
-         * Increase clipping clearance to preserve Macaron's
-         * border and offset shadow.
-         */
-
-        #navigator-toolbox
-          ~ #zen-appcontent-wrapper #tabbrowser-tabbox {
-          clip-path: inset(
-            -6px -6px -6px -6px round 10px
-          ) !important;
-        }
-
-        /* Expanded sidebar on the left. */
-
-        #navigator-toolbox:not([zen-right-side="true"]):is(
+        #navigator-toolbox:is(
           :hover,
           [has-popup-menu="true"],
           [movingtab],
@@ -163,18 +148,91 @@
             #urlbar[open],
             toolbarbutton[open="true"]:not(#zen-sidepanel-button)
           )
-        ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox {
-          clip-path: inset(
-            -6px
-            -6px
-            -6px
-            calc(
-              var(--expanded-tab-bar-width)
-              - var(--collapsed-tab-bar-width)
-              - 5px
+        ) #zen-media-controls-toolbar {
+          padding-inline-end: 10px !important;
+        }
+
+        /* Mirror the clearance for a right-side sidebar. */
+
+        #navigator-toolbox[zen-right-side="true"]
+          #zen-media-controls-toolbar {
+          margin-left: auto !important;
+        }
+
+        #navigator-toolbox[zen-right-side="true"]:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) #zen-media-controls-toolbar {
+          padding-inline-start: 10px !important;
+          padding-inline-end: 0 !important;
+        }
+
+        /* Restore Zen's native media-card background and stacking
+           transforms, preserving Macaron's border and box-shadow. */
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar .zen-media-card {
+          box-sizing: border-box !important;
+          min-width: 0 !important;
+
+          background: var(--zen-sidebar-notification-bg) !important;
+
+          transform:
+            translateY(
+              calc(
+                var(--zen-media-card-index, 0) *
+                  (100% + var(--zen-media-stack-gap)) -
+                var(--zen-media-stack-peek) *
+                  var(--zen-media-card-peek-level, 0)
+              )
             )
-            round 10px
-          ) !important;
+            scale(
+              calc(1 - 0.04 * var(--zen-media-card-peek-level, 0))
+            ) !important;
+
+          transition:
+            transform 0.35s var(--zen-media-stack-easing),
+            opacity 0.3s var(--zen-media-stack-easing),
+            filter 0.3s var(--zen-media-stack-easing),
+            padding 0.3s ease-out,
+            box-shadow 0.12s ease !important;
+        }
+
+        /* Native expanded and removing states. */
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar:hover
+          .zen-media-card:not([zen-removing], [zen-hiding]),
+        #navigator-toolbox
+          #zen-media-controls-toolbar
+          .zen-media-card[zen-removing] {
+          transform: none !important;
+        }
+
+        #navigator-toolbox
+          #zen-media-controls-toolbar
+          .zen-media-card[zen-reindexing] {
+          transition: none !important;
+        }
+
+        /* Collapse the media details when the sidebar becomes narrow,
+           even if the media toolbar retains its hover state. */
+
+        @container (max-width: 120px) {
+          #zen-media-controls-toolbar .show-on-hover {
+            max-height: 0 !important;
+            padding-block: 0 !important;
+            margin-bottom: 0 !important;
+            opacity: 0 !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
+          }
         }
 
         /* Expanded sidebar on the right. */

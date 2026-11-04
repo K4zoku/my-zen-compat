@@ -314,8 +314,8 @@
 /*
  * Macaron menus and native select dropdowns
  *
- * Firefox's popup frame uses --panel-* tokens, while the
- * separator line is drawn by ::before.
+ * Firefox paints the popup frame on ::part(content) and the
+ * separator line on ::before, rather than on the XUL hosts.
  */
 
 :root menupopup {
@@ -323,17 +323,17 @@
   background: transparent !important;
   --panel-padding: 0px !important;
   --panel-border-radius: var(--mac-border-radius, 8px) !important;
-  --panel-border-color: var(--macaron-outline) !important;
-  --panel-shadow:
-    inset 0 0 0 1px var(--macaron-outline),
+  --menuitem-padding: 7px 10px !important;
+}
+
+:root menupopup::part(content) {
+  padding: 0 !important;
+  border: 2px solid var(--macaron-outline) !important;
+  border-radius: var(--mac-border-radius, 8px) !important;
+  box-shadow:
     var(--mac-shadow-medium, 3px)
     var(--mac-shadow-medium, 3px)
     0 var(--macaron-outline) !important;
-  --menuitem-padding: 8px 10px !important;
-}
-
-:root menupopup > :is(menu, menuitem, menucaption) {
-  padding-block: 8px !important;
 }
 
 :root menupopup > :is(menu, menuitem):not([disabled="true"]):is(

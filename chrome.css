@@ -310,3 +310,48 @@
     }
   }
 }
+
+/*
+ * Macaron menus and native select dropdowns
+ *
+ * Firefox paints the popup frame on ::part(content) and the
+ * separator line on ::before, rather than on the XUL hosts.
+ */
+
+:root menupopup {
+  border: 0 !important;
+  background: transparent !important;
+  --panel-padding: 0px !important;
+  --panel-border-radius: var(--mac-border-radius, 8px) !important;
+  --menuitem-padding: 7px 10px !important;
+}
+
+:root menupopup::part(content) {
+  padding: 0 !important;
+  border: 2px solid var(--macaron-outline) !important;
+  border-radius: var(--mac-border-radius, 8px) !important;
+  box-shadow:
+    var(--mac-shadow-medium, 3px)
+    var(--mac-shadow-medium, 3px)
+    0 var(--macaron-outline) !important;
+}
+
+:root menupopup > :is(menu, menuitem):not([disabled="true"]):is(
+  [_moz-menuactive],
+  [selected]
+) {
+  background-color: color-mix(
+    in srgb,
+    var(--zen-primary-color) 20%,
+    transparent
+  ) !important;
+  color: inherit !important;
+}
+
+:root menupopup > menuseparator {
+  border: 0 !important;
+}
+
+:root menupopup > menuseparator::before {
+  border-top: 2px solid var(--macaron-outline) !important;
+}

@@ -314,24 +314,29 @@
 /*
  * Macaron menus and native select dropdowns
  *
- * Keep the frame on the popup host, as Macaron's original border does.
- * Remove the native inner spacing and draw the separator via ::before.
+ * Frame the actual popup content, keeping room for its solid shadow.
  */
 
 :root menupopup {
-  border: 2px solid var(--macaron-outline) !important;
-  border-radius: var(--mac-border-radius, 8px) !important;
+  --compat-menu-outline: var(
+    --macaron-outline,
+    light-dark(currentColor, rgba(255, 255, 255, 0.5))
+  );
+  border: 0 !important;
   background: transparent !important;
   padding: 0 !important;
-  box-shadow:
-    var(--mac-shadow-medium, 3px)
-    var(--mac-shadow-medium, 3px)
-    0 var(--macaron-outline) !important;
   --panel-padding: 0px !important;
-  --panel-shadow-margin: 0px !important;
+  --panel-shadow-margin: 4px !important;
   --panel-border-color: transparent !important;
   --panel-shadow: none !important;
   --menuitem-padding: 8px 10px !important;
+}
+
+:root menupopup::part(content) {
+  padding: 0 !important;
+  border: 2px solid var(--compat-menu-outline) !important;
+  border-radius: var(--mac-border-radius, 8px) !important;
+  box-shadow: 4px 4px 0 var(--compat-menu-outline) !important;
 }
 
 :root menupopup > :is(menu, menuitem, menucaption) {
@@ -356,7 +361,7 @@
   min-height: 10px !important;
   padding: 0 !important;
   background:
-    linear-gradient(var(--macaron-outline), var(--macaron-outline))
+    linear-gradient(var(--compat-menu-outline), var(--compat-menu-outline))
     center / 100% 2px no-repeat !important;
 }
 

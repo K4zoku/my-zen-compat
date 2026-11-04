@@ -314,26 +314,28 @@
 /*
  * Macaron menus and native select dropdowns
  *
- * Firefox paints the popup frame on ::part(content) and the
- * separator line on ::before, rather than on the XUL hosts.
+ * Keep the frame on the popup host, as Macaron's original border does.
+ * Remove the native inner spacing and draw the separator via ::before.
  */
 
 :root menupopup {
-  border: 0 !important;
-  background: transparent !important;
-  --panel-padding: 0px !important;
-  --panel-border-radius: var(--mac-border-radius, 8px) !important;
-  --menuitem-padding: 7px 10px !important;
-}
-
-:root menupopup::part(content) {
-  padding: 0 !important;
   border: 2px solid var(--macaron-outline) !important;
   border-radius: var(--mac-border-radius, 8px) !important;
+  background: transparent !important;
+  padding: 0 !important;
   box-shadow:
     var(--mac-shadow-medium, 3px)
     var(--mac-shadow-medium, 3px)
     0 var(--macaron-outline) !important;
+  --panel-padding: 0px !important;
+  --panel-shadow-margin: 0px !important;
+  --panel-border-color: transparent !important;
+  --panel-shadow: none !important;
+  --menuitem-padding: 8px 10px !important;
+}
+
+:root menupopup > :is(menu, menuitem, menucaption) {
+  padding-block: 8px !important;
 }
 
 :root menupopup > :is(menu, menuitem):not([disabled="true"]):is(
@@ -350,8 +352,14 @@
 
 :root menupopup > menuseparator {
   border: 0 !important;
+  height: 10px !important;
+  min-height: 10px !important;
+  padding: 0 !important;
+  background:
+    linear-gradient(var(--macaron-outline), var(--macaron-outline))
+    center / 100% 2px no-repeat !important;
 }
 
 :root menupopup > menuseparator::before {
-  border-top: 2px solid var(--macaron-outline) !important;
+  border: 0 !important;
 }

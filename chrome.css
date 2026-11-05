@@ -314,7 +314,7 @@
 /*
  * Macaron menus and native select dropdowns
  *
- * Frame the actual popup content, keeping room for its solid shadow.
+ * Keep the frame on the menupopup host.
  */
 
 :root menupopup {
@@ -322,21 +322,16 @@
     --macaron-outline,
     light-dark(currentColor, rgba(255, 255, 255, 0.5))
   );
-  border: 0 !important;
+  border: 2px solid var(--compat-menu-outline) !important;
+  border-radius: var(--mac-border-radius, 8px) !important;
   background: transparent !important;
   padding: 0 !important;
+  box-shadow: 4px 4px 0 var(--compat-menu-outline) !important;
   --panel-padding: 0px !important;
-  --panel-shadow-margin: 4px !important;
+  --panel-shadow-margin: 0px !important;
   --panel-border-color: transparent !important;
   --panel-shadow: none !important;
   --menuitem-padding: 8px 10px !important;
-}
-
-:root menupopup::part(content) {
-  padding: 0 !important;
-  border: 2px solid var(--compat-menu-outline) !important;
-  border-radius: var(--mac-border-radius, 8px) !important;
-  box-shadow: 4px 4px 0 var(--compat-menu-outline) !important;
 }
 
 :root menupopup > :is(menu, menuitem, menucaption) {

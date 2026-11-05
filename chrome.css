@@ -38,6 +38,15 @@
             box-shadow 0.1s ease !important;
         }
 
+        /* Match the tab icon/text inset in both sidebar states. */
+        #navigator-toolbox:not([zen-right-side="true"]) #tabs-newtab-button {
+          padding-left: calc(var(--collapsed-tab-bar-width) / 2 - 19px) !important;
+        }
+
+        #navigator-toolbox[zen-right-side="true"] #tabs-newtab-button {
+          padding-right: calc(var(--collapsed-tab-bar-width) / 2 - 18px) !important;
+        }
+
         #navigator-toolbox:is(
           :hover,
           [has-popup-menu="true"],
@@ -60,6 +69,11 @@
               var(--tab-margin-block, 0px) -
               var(--tab-margin-block, 0px)
             ) !important;
+          }
+
+          /* The new-tab wrapper already has the horizontal tab margins. */
+          #tabs-newtab-button {
+            width: 100% !important;
           }
         }
 

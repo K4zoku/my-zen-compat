@@ -313,7 +313,9 @@
               var(--transition-delay-smooth, 0ms),
             right var(--transition-duration, 200ms) ease-in-out
               var(--transition-delay-smooth, 0ms),
-            opacity 100ms ease-in-out !important;
+            opacity 0ms linear calc(
+              var(--transition-delay-smooth, 0ms) + var(--transition-duration, 200ms)
+            ) !important;
         }
 
         #navigator-toolbox:not([zen-right-side="true"]):is(
@@ -327,8 +329,12 @@
           )
         ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox::after {
           opacity: 1;
+          transition-delay:
+            var(--transition-delay-smooth, 0ms),
+            var(--transition-delay-smooth, 0ms),
+            0ms !important;
           left: calc(
-            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 5px
+            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 3px
           );
         }
 
@@ -343,8 +349,12 @@
           )
         ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox::after {
           opacity: 1;
+          transition-delay:
+            var(--transition-delay-smooth, 0ms),
+            var(--transition-delay-smooth, 0ms),
+            0ms !important;
           right: calc(
-            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 5px
+            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 3px
           );
         }
       }

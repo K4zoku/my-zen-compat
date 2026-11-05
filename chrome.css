@@ -565,3 +565,10 @@
 :root #navigator-toolbox tab[selected] .tab-background {
   background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
 }
+/* Content <select>: use its own background and text for Macaron popup framing. */
+:root #ContentSelectDropdown > #ContentSelectDropdownPopup {
+  --panel-background-color:
+    var(--content-select-background-image, none)
+    light-dark(rgb(231, 234, 237), rgb(35, 38, 41)) !important;
+  --compat-menu-outline: var(--panel-text-color, CanvasText) !important;
+}

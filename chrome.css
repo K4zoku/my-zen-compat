@@ -389,10 +389,7 @@
  */
 
 :root menupopup {
-  --compat-menu-outline: var(
-    --macaron-outline,
-    light-dark(currentColor, rgba(255, 255, 255, 0.5))
-  );
+  --compat-menu-outline: var(--macaron-outline, var(--ayu-fg));
   border: 0 !important;
   background: transparent !important;
   padding: 0 !important;
@@ -509,7 +506,7 @@
   ):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack),
   :root #zen-sidebar-foot-buttons > toolbarbutton:not(#zen-workspaces-button, [disabled]):hover
     > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
-    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+    background: color-mix(in srgb, var(--ayu-accent) 25%, transparent) !important;
     box-shadow:
       inset 0 0 0 2px var(--macaron-outline),
       var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
@@ -536,7 +533,7 @@
   }
 
   :root #zen-workspaces-button toolbarbutton:not([active="true"]):hover {
-    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+    background: color-mix(in srgb, var(--ayu-accent) 25%, transparent) !important;
     box-shadow:
       inset 0 0 0 2px var(--macaron-outline),
       var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
@@ -550,7 +547,7 @@
   /* The selected workspace retains its frame when idle. */
   :root #zen-workspaces-button toolbarbutton[active="true"] {
     opacity: 1 !important;
-    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+    background: color-mix(in srgb, var(--ayu-accent) 25%, transparent) !important;
     box-shadow:
       inset 0 0 0 2px var(--macaron-outline),
       var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
@@ -563,12 +560,12 @@
 
 /* Use the same translucent accent on selected tabs, including essentials. */
 :root #navigator-toolbox tab[selected] .tab-background {
-  background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+  background: color-mix(in srgb, var(--ayu-accent) 25%, transparent) !important;
 }
-/* Content <select>: use its own background and text for Macaron popup framing. */
+/* Content <select>: prefer forwarded page styling, then Ayu's active palette. */
 :root #ContentSelectDropdown > #ContentSelectDropdownPopup {
   --panel-background-color:
     var(--content-select-background-image, none)
-    light-dark(rgb(231, 234, 237), rgb(35, 38, 41)) !important;
-  --compat-menu-outline: var(--panel-text-color, CanvasText) !important;
+    var(--ayu-surface) !important;
+  --compat-menu-outline: var(--panel-text-color, var(--ayu-fg)) !important;
 }

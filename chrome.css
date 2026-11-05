@@ -416,6 +416,19 @@
 }
 
 /*
+ * Macaron findbar: compact, centered over the page, with an opaque Ayu surface.
+ * Keep Macaron's bottom offset, border, and solid shadow.
+ */
+:root #zen-appcontent-wrapper findbar {
+  width: max-content !important;
+  max-width: calc(100% - 32px) !important;
+  left: 50% !important;
+  translate: -50% 0 !important;
+  background: var(--ayu-surface) !important;
+  color: var(--ayu-fg) !important;
+}
+
+/*
  * Macaron menus and native select dropdowns
  *
  * Use Firefox's popup frame variables so the inner arrowscrollbox

@@ -420,8 +420,6 @@
  * Keep Macaron's bottom offset, border, and solid shadow.
  */
 :root #zen-appcontent-wrapper findbar {
-  width: max-content !important;
-  max-width: calc(100% - 32px) !important;
   left: 50% !important;
   translate: -50% 0 !important;
   background: var(--ayu-surface) !important;

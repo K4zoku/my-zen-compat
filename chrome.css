@@ -542,16 +542,26 @@
       var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
   }
 
-  /* The selected workspace is a filled Macaron button even when idle. */
+  /* Zen normally clips workspace shadows inside its scroll container. */
+  :root #zen-workspaces-button:not([icons-overflow]) {
+    overflow: visible !important;
+  }
+
+  /* The selected workspace retains its frame when idle. */
   :root #zen-workspaces-button toolbarbutton[active="true"] {
     opacity: 1 !important;
-    background: var(--mac-accent) !important;
+    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
     box-shadow:
       inset 0 0 0 2px var(--macaron-outline),
-      var(--mac-shadow-selected) var(--mac-shadow-selected) 0 var(--macaron-outline) !important;
+      var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
   }
 
   :root #zen-workspaces-button toolbarbutton:active {
     box-shadow: inset 0 0 0 2px var(--macaron-outline) !important;
   }
+}
+
+/* Use the same translucent accent on selected tabs, including essentials. */
+:root #navigator-toolbox tab[selected] .tab-background {
+  background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
 }

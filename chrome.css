@@ -449,6 +449,25 @@
   --menuitem-padding: 8px 10px !important;
 }
 
+/* Firefox chrome popups use Ayu colors; native web <select> colors remain separate. */
+:root menupopup:not(#ContentSelectDropdownPopup) {
+  --panel-background-color: var(--ayu-surface) !important;
+  --panel-text-color: var(--ayu-fg) !important;
+}
+
+/* Apply the same Macaron frame to Firefox panels (app menu, downloads, etc.). */
+:root panel {
+  --compat-panel-outline: var(--macaron-outline, var(--ayu-fg));
+  --panel-background-color: var(--ayu-surface) !important;
+  --panel-text-color: var(--ayu-fg) !important;
+  --panel-border-radius: var(--mac-border-radius, 8px) !important;
+  --panel-border-color: var(--compat-panel-outline) !important;
+  --panel-box-shadow-margin: 4px !important;
+  --panel-box-shadow:
+    inset 0 0 0 1px var(--compat-panel-outline),
+    4px 4px 0 var(--compat-panel-outline) !important;
+}
+
 :root menupopup > :is(menu, menuitem, menucaption) {
   padding-block: 8px !important;
 }

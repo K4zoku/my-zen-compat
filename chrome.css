@@ -306,7 +306,7 @@
           right: 3px;
           border: 2px solid var(--macaron-outline);
           border-radius: var(--zen-border-radius, 10px);
-          box-shadow: 3px 3px 0 var(--macaron-outline);
+          box-shadow: var(--mac-shadow-medium) var(--mac-shadow-medium) 0 var(--macaron-outline);
           opacity: 0;
           transition:
             left var(--transition-duration, 200ms) ease-in-out

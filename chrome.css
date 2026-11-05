@@ -396,6 +396,26 @@
 }
 
 /*
+ * Macaron URL bar inner backgrounds
+ *
+ * Static: 10px outer radius - 2px border - 1px background margin.
+ * Popup:  12px outer radius - 3px border.
+ */
+:root:not([inDOMFullscreen="true"])
+  #urlbar:not([breakout-extend="true"]) > .urlbar-background {
+  border-radius: calc(10px - 2px - 1px) !important;
+}
+
+:root #urlbar[breakout][breakout-extend="true"] > .urlbar-background {
+  border-radius: calc(12px - 3px) !important;
+}
+
+/* Clip the suggestion background at the popup frame's lower corners. */
+:root #urlbar[breakout][breakout-extend="true"] > .urlbarView {
+  border-radius: 0 0 calc(12px - 3px) calc(12px - 3px) !important;
+}
+
+/*
  * Macaron menus and native select dropdowns
  *
  * Use Firefox's popup frame variables so the inner arrowscrollbox

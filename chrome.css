@@ -437,6 +437,18 @@
   border: 0 !important;
 }
 
+/* Delay restoring the real frame until the fake frame finishes collapsing. */
+#zen-appcontent-wrapper #tabbrowser-tabpanels {
+  transition:
+    transform 0.12s ease,
+    border-color 0ms linear calc(
+      var(--transition-delay-smooth, 0ms) + var(--transition-duration, 200ms)
+    ),
+    box-shadow 0ms linear calc(
+      var(--transition-delay-smooth, 0ms) + var(--transition-duration, 200ms)
+    ) !important;
+}
+
 /* Hide the real Macaron frame while the fake webview frame is active. */
 #navigator-toolbox:not([zen-right-side="true"]):is(
   :hover,
@@ -450,4 +462,5 @@
 ) ~ #zen-appcontent-wrapper #tabbrowser-tabpanels {
   border-color: transparent !important;
   box-shadow: none !important;
+  transition-delay: 0ms, 0ms, 0ms !important;
 }

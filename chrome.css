@@ -287,6 +287,66 @@
             round 10px
           ) !important;
         }
+
+        /* Recreate the visible webview frame and bottom shadow. */
+
+        #zen-appcontent-wrapper #tabbrowser-tabbox {
+          position: relative !important;
+        }
+
+        #zen-appcontent-wrapper #tabbrowser-tabbox::after {
+          content: "";
+          position: absolute;
+          z-index: 2;
+          pointer-events: none;
+          box-sizing: border-box;
+          top: 0;
+          bottom: 3px;
+          left: 0;
+          right: 3px;
+          border: 2px solid var(--macaron-outline);
+          border-radius: var(--zen-border-radius, 10px);
+          box-shadow: 3px 3px 0 var(--macaron-outline);
+          opacity: 0;
+          transition:
+            left var(--transition-duration, 200ms) ease-in-out
+              var(--transition-delay-smooth, 0ms),
+            right var(--transition-duration, 200ms) ease-in-out
+              var(--transition-delay-smooth, 0ms),
+            opacity 100ms ease-in-out !important;
+        }
+
+        #navigator-toolbox:not([zen-right-side="true"]):is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox::after {
+          opacity: 1;
+          left: calc(
+            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 3px
+          );
+        }
+
+        #navigator-toolbox[zen-right-side="true"]:is(
+          :hover,
+          [has-popup-menu="true"],
+          [movingtab],
+          [flash-popup],
+          :has(
+            #urlbar[open],
+            toolbarbutton[open="true"]:not(#zen-sidepanel-button)
+          )
+        ) ~ #zen-appcontent-wrapper #tabbrowser-tabbox::after {
+          opacity: 1;
+          right: calc(
+            var(--expanded-tab-bar-width) - var(--collapsed-tab-bar-width) - 3px
+          );
+        }
       }
     }
   }

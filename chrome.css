@@ -40,11 +40,11 @@
 
         /* Match the tab icon/text inset in both sidebar states. */
         #navigator-toolbox:not([zen-right-side="true"]) #tabs-newtab-button {
-          padding-left: calc(var(--collapsed-tab-bar-width) / 2 - 19px) !important;
+          padding-left: calc(var(--collapsed-tab-bar-width) / 2 - 17px) !important;
         }
 
         #navigator-toolbox[zen-right-side="true"] #tabs-newtab-button {
-          padding-right: calc(var(--collapsed-tab-bar-width) / 2 - 18px) !important;
+          padding-right: calc(var(--collapsed-tab-bar-width) / 2 - 16px) !important;
         }
 
         #navigator-toolbox:is(

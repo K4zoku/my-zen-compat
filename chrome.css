@@ -464,3 +464,94 @@
   box-shadow: none !important;
   transition-delay: 0ms, 0ms, 0ms !important;
 }
+/*
+ * Macaron toolbar surfaces
+ * The native hover background is painted on .toolbarbutton-icon
+ * (or .toolbarbutton-badge-stack), not the outer toolbarbutton.
+ */
+@media (-moz-pref("mac.toolbar-hover.enabled")) {
+  /* The outer frame creates a mismatched rectangular hover hitbox. */
+  :root :is(#navigator-toolbox, #nav-bar) :is(
+    #back-button,
+    #forward-button,
+    #reload-button,
+    #stop-button,
+    #PanelUI-menu-button
+  ),
+  :root #zen-sidebar-foot-buttons > toolbarbutton:not(#zen-workspaces-button) {
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Frame the square native icon surface without changing button sizing. */
+  :root :is(#navigator-toolbox, #nav-bar) :is(
+    #back-button,
+    #forward-button,
+    #reload-button,
+    #stop-button,
+    #PanelUI-menu-button
+  ) > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack),
+  :root #zen-sidebar-foot-buttons > toolbarbutton:not(#zen-workspaces-button)
+    > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+    border-radius: 10px !important;
+    transition:
+      background-color 0.1s ease,
+      box-shadow 0.1s ease !important;
+  }
+
+  :root :is(#navigator-toolbox, #nav-bar) :is(
+    #back-button,
+    #forward-button,
+    #reload-button,
+    #stop-button,
+    #PanelUI-menu-button
+  ):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack),
+  :root #zen-sidebar-foot-buttons > toolbarbutton:not(#zen-workspaces-button, [disabled]):hover
+    > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+    box-shadow:
+      inset 0 0 0 2px var(--macaron-outline),
+      var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
+  }
+
+  :root :is(#navigator-toolbox, #nav-bar) :is(
+    #back-button,
+    #forward-button,
+    #reload-button,
+    #stop-button,
+    #PanelUI-menu-button
+  ):active > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack),
+  :root #zen-sidebar-foot-buttons > toolbarbutton:not(#zen-workspaces-button):active
+    > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+    box-shadow: inset 0 0 0 2px var(--macaron-outline) !important;
+  }
+
+  /* Workspaces paint on their toolbarbuttons, not an icon box. */
+  :root #zen-workspaces-button toolbarbutton {
+    border-color: transparent !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  :root #zen-workspaces-button toolbarbutton:not([active="true"]):hover {
+    background: color-mix(in srgb, var(--mac-accent) 25%, transparent) !important;
+    box-shadow:
+      inset 0 0 0 2px var(--macaron-outline),
+      var(--mac-shadow-soft) var(--mac-shadow-soft) 0 var(--macaron-outline) !important;
+  }
+
+  /* The selected workspace is a filled Macaron button even when idle. */
+  :root #zen-workspaces-button toolbarbutton[active="true"] {
+    opacity: 1 !important;
+    background: var(--mac-accent) !important;
+    box-shadow:
+      inset 0 0 0 2px var(--macaron-outline),
+      var(--mac-shadow-selected) var(--mac-shadow-selected) 0 var(--macaron-outline) !important;
+  }
+
+  :root #zen-workspaces-button toolbarbutton:active {
+    box-shadow: inset 0 0 0 2px var(--macaron-outline) !important;
+  }
+}

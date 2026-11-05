@@ -468,6 +468,23 @@
     4px 4px 0 var(--compat-panel-outline) !important;
 }
 
+/* Firefox autoscroll: keep its SVG and circular shape without a hard shadow.
+   The built-in SVG is dark, so use a light Ayu token in either theme. */
+:root panel.autoscroller {
+  --panel-background-color:
+    var(--ayu-bg) no-repeat center var(--autoscroll-background-image) !important;
+  --panel-border-radius: 100% !important;
+  --panel-box-shadow: none !important;
+}
+
+@media (-moz-pref("zen.view.window.scheme", 0)),
+       (-moz-pref("zen.view.window.scheme", 2)) and (-moz-system-dark-theme) {
+  :root panel.autoscroller {
+    --panel-background-color:
+      var(--ayu-fg) no-repeat center var(--autoscroll-background-image) !important;
+  }
+}
+
 :root menupopup > :is(menu, menuitem, menucaption) {
   padding-block: 8px !important;
 }
